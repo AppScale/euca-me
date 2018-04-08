@@ -1,0 +1,23 @@
+           ___   _   _    ___    __ _       _ __ ___     ___
+          / _ \ | | | |  / __|  / _` |     | '_ ` _ \   / _ \
+         |  __/ | |_| | | (__  | (_| |  _  | | | | | | |  __/
+          \___|  \__,_|  \___|  \__,_| (_) |_| |_| |_|  \___|
+
+
+      DNS for your eucalyptus cloud.
+
+      # euctl system.dns.dnsdomain
+      system.dns.dnsdomain = my-cloud-10-10-10-10.euca.me
+
+      # dig +short ec2.my-cloud-10-10-10-10.euca.me
+      10.10.10.10
+
+      # dig +short bucket.s3.my-cloud-10-10-10-10.euca.me
+      10.10.10.10
+
+      # dig +short euca-10-20-30-40.eucalyptus.my-cloud-10-10-10-10.euca.me
+      10.20.30.40
+
+      For simple dns wildcard functionality, try nip.io or xip.io
+
+      Send feedback to euca@euca.me

@@ -1,0 +1,25 @@
+#cloud-config
+packages:
+  - httpd
+write_files:
+  - path: /etc/httpd/conf/httpd.conf
+    owner: root:root
+    permissions: '0644'
+    content: |@@HTTPD_CONF@@
+  - path: /etc/pdns/pdns.conf
+    owner: root:root
+    permissions: '0644'
+    content: |@@PDNS_CONF@@
+  - path: /opt/euca-me.py
+    owner: root:root
+    permissions: '0755'
+    content: |@@EUCA-ME_PY@@
+runcmd:
+  - yum -y -t --enablerepo epel install pdns pdns-backend-pipe
+  - chkconfig --level 345 httpd on
+  - service httpd start
+  - chkconfig --level 345 pdns on
+  - service pdns start
+  - aws ec2 describe-addresses --output text --region us-west-1 --filter Name=tag:Name,Values=euca.me | cut -f 2 > /tmp/eipalloc.txt
+  - wget -q -O - http://169.254.169.254/latest/meta-data/instance-id > /tmp/instance-id.txt
+  - aws ec2 associate-address --region us-west-1 --allow-reassociation --instance-id $(</tmp/instance-id.txt) --allocation-id $(</tmp/eipalloc.txt)

@@ -18,8 +18,11 @@ runcmd:
   - yum -y -t --enablerepo epel install pdns pdns-backend-pipe
   - chkconfig --level 345 httpd on
   - service httpd start
-  - chkconfig --level 345 pdns on
-  - service pdns start
   - aws ec2 describe-addresses --output text --region us-west-1 --filter Name=tag:Name,Values=euca.me | cut -f 2 > /tmp/eipalloc.txt
   - wget -q -O - http://169.254.169.254/latest/meta-data/instance-id > /tmp/instance-id.txt
   - aws ec2 associate-address --region us-west-1 --allow-reassociation --instance-id $(</tmp/instance-id.txt) --allocation-id $(</tmp/eipalloc.txt)
+  - sleep 10
+  - wget -q -O - http://169.254.169.254/latest/meta-data/public-ipv4 > /tmp/public-ipv4.txt
+  - sed --in-place "s/127.0.0.1/$(</tmp/public-ipv4.txt)/" /opt/euca-me.py
+  - chkconfig --level 345 pdns on
+  - service pdns start

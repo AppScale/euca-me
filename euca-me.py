@@ -43,7 +43,15 @@ class PowerDnsQuery(object):
             self.results.append(
                 'DATA\t%s\t%s\tCNAME\t%d\t-1\t%s'
                 % (qname, qclass, PowerDnsQuery.ttl,
-                   'www.euca.me.s3-website-us-west-1.amazonaws.com'))
+                   'dj3ltynlr0evw.cloudfront.net'))
+            self.has_result = True
+
+        if (qtype == 'CNAME' or qtype == 'ANY') and \
+                qname_lower == 'go.euca.me':
+            self.results.append(
+                'DATA\t%s\t%s\tCNAME\t%d\t-1\t%s'
+                % (qname, qclass, PowerDnsQuery.ttl,
+                   'd3rahf8dg1z1ts.cloudfront.net'))
             self.has_result = True
 
         if (qtype == 'A' or qtype == 'ANY') and \

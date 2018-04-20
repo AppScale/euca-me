@@ -18,6 +18,11 @@
       # dig +short euca-10-20-30-40.eucalyptus.my-cloud-10-10-10-10.euca.me
       10.20.30.40
 
+      To install via FastStart using euca.me dns:
+
+        bash <(curl -Ls https://go.euca.me)
+
       For simple dns wildcard functionality, try nip.io or xip.io
 
       Send feedback to euca@euca.me
+

@@ -71,6 +71,21 @@ class PowerDnsQuery(object):
             self.has_result = True
 
         elif (qtype == 'A' or qtype == 'ANY') and re.match(
+                '^ec2-(\d{1,3})-(\d{1,3})-(\d{1,3})-(\d{1,3})\.compute\.'
+                '[a-z0-9-]{0,32}?\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.euca\.me$',
+                qname_lower):
+            # instances, ...
+            match = re.match(
+                '^ec2-(\d{1,3})-(\d{1,3})-(\d{1,3})-(\d{1,3})\.compute\.'
+                '[a-z0-9-]{0,32}?\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.euca\.me$',
+                qname_lower)
+            self.results.append(
+                'DATA\t%s\t%s\tA\t%d\t-1\t%s'
+                % (qname, qclass, PowerDnsQuery.ttl,
+                   '%s.%s.%s.%s' % match.groups()))
+            self.has_result = True
+
+        elif (qtype == 'A' or qtype == 'ANY') and re.match(
                 '^euca-(\d{1,3})-(\d{1,3})-(\d{1,3})-(\d{1,3})\.eucalyptus\.'
                 '[a-z0-9-]{0,32}?\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.euca\.me$',
                 qname_lower):

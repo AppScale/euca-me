@@ -7,8 +7,8 @@ import troposphere.iam as iam
 
 template = Template()
 
-template.add_version("2010-09-09")
-template.add_description("euca.me dns and http services")
+template.set_version("2010-09-09")
+template.set_description("euca.me dns and http services")
 
 availability_zone_1 = template.add_parameter(Parameter(
     "AvailabilityZone1",
